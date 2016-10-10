@@ -16,8 +16,6 @@ class FileOpcode:
             self.opcodes[key].visit()
             return
 
-        print(self.opcodes[key].instruction)
-        print(instruction)
         raise Exception(
             'Unexpected instruction {} {} {}'.format(
                 codeobj_id, offset, str(instruction))

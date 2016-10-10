@@ -31,10 +31,10 @@ class OpTraceHook:
 
     def make_marker(self, module, source):
         self.module_opcodes[module] = FileOpcode(module, source)
-        def mark(codeobj_id, offset, instruction):
-            self.module_opcodes[module].add(codeobj_id, offset, instruction)
+        def mark(codeobj_id, opcode):
+            self.module_opcodes[module].add(codeobj_id, opcode.offset, opcode)
             self.log(
-                ' mark {}_{} {}'.format(codeobj_id, offset, repr(instruction)))
+                ' mark {}_{} {}'.format(codeobj_id, opcode.offset, repr(opcode)))
         return mark
 
     def make_visitor(self, module):

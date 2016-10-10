@@ -1,5 +1,5 @@
 def some_method(a, b, c):
-    if a or b or c:
+    if a and b or c:
         return True
     return False
 

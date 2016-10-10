@@ -77,7 +77,7 @@ class Wrapper:
 
         update_offset = partial(self.calculate_offset, code=codeobj.co_code)
         for st in dis.get_instructions(codeobj):
-            self.mark(codeobj_id, st.offset, st)
+            self.mark(codeobj_id, st)
             constants.append(
                 lambda co_id=codeobj_id, opcode=st: self.visit(co_id, opcode)
             )
@@ -86,12 +86,12 @@ class Wrapper:
 
             if st.opcode in opcode.hasjrel:
                 current_position = update_offset(st.offset)
-                taget_position = update_offset(st.argval) - self.TRACE_CODE_LEN
+                taget_position = update_offset(st.argval) - self.TRACE_CODE_LEN - self.TRACE_CODE_LEN
                 new_delta = taget_position - current_position
                 codes.extend(self.make_args(new_delta - self.AGR_OP_LEN))
             elif st.opcode in opcode.hasjabs:
                 codes.extend(self.make_args(
-                    update_offset(st.arg) - self.TRACE_CODE_LEN
+                    update_offset(st.arg) - self.TRACE_CODE_LEN - self.TRACE_CODE_LEN
                 ))
             elif st.opcode >= opcode.HAVE_ARGUMENT:
                 codes.extend(self.make_args(st.arg))
